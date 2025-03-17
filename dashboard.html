@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CoinTrade - Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        let wallet = {
+            bitcoin: 500.130,
+            ethereum: 100.04,
+            litecoin: 5000.15,
+        };
+
+        function updateCoinInfo() {
+            const selectedCoin = document.getElementById('coinSelect').value;
+            const amountInput = document.getElementById('amountInput');
+            const coinInfo = document.getElementById('coinInfo');
+            const walletBalance = document.getElementById('walletBalance');
+
+            if (selectedCoin) {
+                coinInfo.textContent = `${selectedCoin.charAt(0).toUpperCase() + selectedCoin.slice(1)} - A popular cryptocurrency.`;
+                amountInput.placeholder = `Enter amount of ${selectedCoin.charAt(0).toUpperCase() + selectedCoin.slice(1)} to sell`;
+                walletBalance.textContent = `Wallet Balance: ${wallet[selectedCoin]} ${selectedCoin.toUpperCase()}`;
+            }
+        }
+
+        function handleSell() {
+            const selectedCoin = document.getElementById('coinSelect').value;
+            const amount = parseFloat(document.getElementById('amountInput').value);
+
+            if (!selectedCoin || isNaN(amount) || amount <= 0) {
+                alert('Please select a coin and enter a valid amount to sell.');
+                return;
+            }
+
+            if (amount > wallet[selectedCoin]) {
+                alert('You do not have enough balance to sell this amount.');
+                return;
+            }
+            wallet[selectedCoin] -= amount;
+            alert(`You have successfully sold ${amount} ${selectedCoin.toUpperCase()}!`);
+            updateCoinInfo();
+        }
+    </script>
+</head>
+
+<body class="bg-gray-900 text-white font-poppins">
+
+    <nav class="flex justify-between items-center p-6 bg-gray-800 shadow-lg">
+        <h1 class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-blue-500">
+            CoinTrade</h1>
+        <a href="index.html"
+            class="text-white bg-blue-600 py-2 px-6 rounded-md text-lg font-semibold transition transform hover:bg-blue-700 hover:scale-105">Home</a>
+    </nav>
+
+    <section class="flex flex-col md:flex-row items-center justify-center px-6 py-16 md:py-32 space-y-6 md:space-y-0">
+        <div class="md:w-1/2 text-center md:text-left">
+            <h2
+                class="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-blue-500 mb-4">
+                Sell Your Cryptocurrency
+            </h2>
+            <p class="text-gray-300 text-lg mb-6">
+                Select the coin and enter the amount you wish to sell.
+            </p>
+
+            <div id="walletBalance" class="text-xl font-semibold text-gray-300 mb-6">
+                Wallet Balance: 13300.34 BTC
+            </div>
+
+            <div class="mb-6">
+                <label for="coinSelect" class="block text-xl font-semibold text-gray-300 mb-2">Select Coin</label>
+                <select id="coinSelect" class="bg-gray-800 text-white p-3 rounded-lg w-full"
+                    onchange="updateCoinInfo()">
+                    <option value="" disabled selected>Select a Coin</option>
+                    <option value="bitcoin">Bitcoin (BTC)</option>
+                    <option value="ethereum">Ethereum (ETH)</option>
+                    <option value="litecoin">Litecoin (LTC)</option>
+                </select>
+            </div>
+
+            <p id="coinInfo" class="text-gray-400 text-lg mb-6">Select a coin to view more info.</p>
+
+            <div class="mb-6">
+                <label for="amountInput" class="block text-xl font-semibold text-gray-300 mb-2">Amount</label>
+                <input type="number" id="amountInput" class="bg-gray-800 text-white p-3 rounded-lg w-full"
+                    placeholder="Enter amount" min="0.01" step="0.01">
+            </div>
+
+            <button onclick="handleSell()"
+                class="bg-gradient-to-r from-green-400 to-blue-500 text-white py-3 px-8 rounded-lg font-semibold transition transform hover:bg-blue-600 hover:scale-105">
+                Sell Coin
+            </button>
+        </div>
+        <br>
+        <div class="md:w-1/2 max-w-md mx-auto">
+            <img src="Coin.jpg" width="130px" height="140px" alt="Crypto Image"
+                class="rounded-lg shadow-lg object-cover w-full h-full">
+        </div>
+    </section>
+
+    <footer class="text-center py-6 bg-gray-800 mt-10">
+        <p>&#169; &nbsp; 2025 CoinTrade. All rights reserved.</p>
+    </footer>
+
+</body>
+
+</html>
