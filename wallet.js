@@ -61,5 +61,5 @@ function showTooltip() {
 }
 
 function hideTooltip() {
-    document.getElementById('walletTooltip')classList.add('hidden');
+    document.getElementById('walletTooltip').classList.add('hidden');
 }
